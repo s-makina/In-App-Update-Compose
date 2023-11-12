@@ -8,11 +8,11 @@ plugins {
 
 
 
-val PUBLISH_GROUP_ID: String by extra("se.warting.in-app-update")
-val PUBLISH_VERSION: String by extra(rootProject.version as String)
-val PUBLISH_ARTIFACT_ID by extra("in-app-update-compose")
+//val PUBLISH_GROUP_ID: String by extra("se.warting.in-app-update")
+//val PUBLISH_VERSION: String by extra(rootProject.version as String)
+//val PUBLISH_ARTIFACT_ID by extra("in-app-update-compose")
 
-apply(from = "${rootProject.projectDir}/gradle/publish-module.gradle")
+//apply(from = "${rootProject.projectDir}/gradle/publish-module.gradle")
 
 android {
     compileSdk = 33
@@ -93,4 +93,18 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+
+                groupId = "com.github.s-makina"
+                artifactId = "in_app_update"
+                version = "1.0"
+            }
+        }
+    }
 }
